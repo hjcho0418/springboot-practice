@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 public class QuizController {
 
 
-    @GetMapping("/quiz")
+    @GetMapping("/quiz") //데이터 조회
     public ResponseEntity<String> quiz(@RequestParam("code") int code) {
         switch (code) {
             case 1:
@@ -20,7 +20,7 @@ public class QuizController {
     }
 
 
-    @PostMapping("/quiz")
+    @PostMapping("/quiz") //데이터 서버로 전송
     public ResponseEntity<String> quiz2(@RequestBody Code code) {
 
 
