@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>블로그 글 목록</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+        /* 전체 페이지 배경 */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298); /* 감성적인 그라디언트 */
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 별이 반짝이는 효과 */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            animation: moveStars 50s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes moveStars {
+            from { background-position: 0 0; }
+            to { background-position: -10000px 5000px; }
+        }
+
+        /* 헤더 */
+        .p-5 {
+            background: rgba(0, 0, 0, 0.5); /* 반투명한 어두운 배경 */
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            color: #fff; /* 글자색을 하얀색으로 */
+            position: relative;
+            z-index: 1;
+        }
+
+        h1, h4 {
+            margin: 0;
+            padding: 0.5rem 0;
+        }
+
+        /* 글 등록 버튼 */
+        #create-btn {
+            background-color: #6c5ce7;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        #create-btn:hover {
+            background-color: #a29bfe;
+        }
+
+        /* 카드 스타일 */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            font-size: 0.9rem;
+            color: #555;
+            background-color: transparent;
+            border-bottom: none;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .btn-primary {
+            background-color: #6c5ce7;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #a29bfe;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .p-5 {
+                padding: 2rem 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h4 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 별이 반짝이는 배경 -->
+<div class="stars"></div>
+
+<!-- 헤더 영역 (반투명 배경 적용) -->
+<div class="p-5 mb-5 text-center">
+    <h1 class="mb-3">My Blog</h1>
+    <h4 class="mb-3">블로그에 오신 것을 환영합니다.</h4>
+</div>
+
+<!-- 글 목록과 글 등록 버튼 -->
+<div class="container">
+    <button type="button" id="create-btn"
+            th:onclick="|location.href='@{/new-article}'|"
+            class="btn btn-secondary btn-sm mb-3">글 등록</button>
+
+    <!-- 글 목록 카드 반복 -->
+    <div class="row-6" th:each="item : ${articles}">
+        <div class="card">
+            <div class="card-header" th:text="'글 번호: ' + ${item.id}"></div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${item.title}">제목</h5>
+                <p class="card-text" th:text="${item.content}">내용</p>
+                <a th:href="@{/articles/{id}(id=${item.id})}" class="btn btn-primary">보러가기</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/article.js"></script>
+</body>
+</html>
+
+
+
