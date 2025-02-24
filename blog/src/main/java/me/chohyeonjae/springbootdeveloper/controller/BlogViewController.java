@@ -3,7 +3,7 @@ package me.chohyeonjae.springbootdeveloper.controller;
 import lombok.RequiredArgsConstructor;
 import me.chohyeonjae.springbootdeveloper.domain.Article;
 import me.chohyeonjae.springbootdeveloper.dto.ArticleListViewResponse;
-//import me.chohyeonjae.springbootdeveloper.dto.ArticleViewResponse;
+import me.chohyeonjae.springbootdeveloper.dto.ArticleViewResponse;
 import me.chohyeonjae.springbootdeveloper.service.BlogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,5 +26,24 @@ public class BlogViewController {
         model.addAttribute("articles", articles); //블로그 글 리스트 저장
 
         return "articleList"; //articleList라는 뷰 조회
+    }
+
+    @GetMapping("/articles/{id}")
+    public String getArticle(@PathVariable Long id, Model model) {
+        Article article = blogService.findById(id);
+        model.addAttribute("article", new ArticleViewResponse(article));
+        return "article";
+    }
+
+    @GetMapping("/new-article")
+    public String newArticle(@RequestParam(required = false) Long id, Model model) {
+        if (id == null) {
+            model.addAttribute("article", new ArticleViewResponse());
+        } else {
+            Article article = blogService.findById(id);
+            model.addAttribute("article", new ArticleViewResponse(article));
+        }
+
+        return "newArticle";
     }
 }
