@@ -25,13 +25,17 @@ public class User implements UserDetails {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "nickname", unique = true)
+    private String nickname;
+
     @Column(name = "password")
     private String password;
 
     @Builder
-    public User(String email, String password, String auth) {
+    public User(String email, String password, String nickname) {
         this.email = email;
         this.password = password;
+        this.nickname = nickname;
     }
 
     @Override
@@ -39,33 +43,37 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority("user"));
     }
 
-    @Override //id 반환
+    @Override
     public String getUsername() {
         return email;
     }
 
-    @Override //pw 반환
+    @Override
     public String getPassword() {
         return password;
     }
-
-    @Override //계정만료여부 반환
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @Override //계정 잠금 여부 반환
+    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @Override //패스워드의 만료 여부 반환
+    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @Override //계정 사용 가능 여부 반환
+    @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User update(String nickname) {
+        this.nickname = nickname;
+        return this;
     }
 }

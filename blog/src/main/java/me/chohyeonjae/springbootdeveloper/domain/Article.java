@@ -11,33 +11,38 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@EntityListeners(AuditingEntityListener.class) //생성시간과 수정시간 관리
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article {
-
-    @Id //id를 기본 필드키로
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //자동 1증가
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "title", nullable = false) //title과 매칭
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "content", nullable = false)
     private String content;
 
-    @CreatedDate //엔티티 생성될때 시간
+
+
+    @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @LastModifiedDate //엔티티 수정될때 시간
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Builder //빌더패턴으로 객체 생성
-    public Article(String title, String content) {
+    @Column(name = "author", nullable = false)
+    private String author;
+
+    @Builder
+    public Article(String author, String title, String content) {
+        this.author = author;
         this.title = title;
         this.content = content;
     }
